@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "STM32F446",
+      "includePath": [
+        "${workspaceFolder}/src",
+        "C:/STM32/cmsis-device-f4/Include",
+        "C:/STM32/CMSIS_5/CMSIS/Core/Include"
+      ],
+      "defines": [
+        "STM32F446xx"
+      ],
+      "compilerPath": "arm-none-eabi-gcc",
+      "intelliSenseMode": "gcc-arm",
+      "cStandard": "c11"
+    }
+  ],
+  "version": 4
+}
