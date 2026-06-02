@@ -1,17 +1,22 @@
 /*
  * @file main.c
  * @author Lucas Stenzel
- * @date May 23, 2026
+ * @date June 1, 2026
  * 
- * Program to turn on all 9 LEDs on the MSOE dev board. This is a simple test to verify that the GPIO registers are being accessed correctly.
- * Normally the LED functions would be broken out into a separate file, but keeping them here for simplicity.			
+ * Program ***
  */
 
+#include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 
+#include "actuator.h"
+#include "co2.h"
 #include "gpio.h"
+#include "greenhouse_fsm.h"
+#include "humidity.h"
+#include "lcd.h"
 
 #define RCC_AHB1ENR (volatile uint32_t*) 0x40023830
 
