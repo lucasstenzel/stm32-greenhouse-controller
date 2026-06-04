@@ -1,19 +1,22 @@
-#include <inttypes.h>
-#include "delay.h"  
+#include "delay.h"
+
+// Forward declaration of helper functions
+static void delay_1ms(void);
+static void delay_1us(void);
 
 void delay_ms(uint32_t n){
-	for (int i = 0; i < n; i++) {
+	for (uint32_t i = 0; i < n; i++) {
 		delay_1ms();
 	}
 }
 
 void delay_us(uint32_t n){
-	for (int i = 0; i < n; i++) {
+	for (uint32_t i = 0; i < n; i++) {
 		delay_1us();
 	}
 }
 
-void delay_1ms(void)
+static void delay_1ms(void)
 {
     // Load number of cycles; 16 MHz clock
     *(STK_LOAD) = 16000;
@@ -23,13 +26,13 @@ void delay_1ms(void)
     *(STK_CTRL) = (1 << EN) | (1 << CLKSOURCE);
     
     // Wait for countflag to be set
-    while (*(STK_CTRL) & (1 << COUNTFLAG) == 0);
+    while ((*(STK_CTRL) & (1 << COUNTFLAG)) == 0);
 
     // Disable SysTick
     *(STK_CTRL) = 0;
 }
 
-void delay_1us(void)
+static void delay_1us(void)
 {
     // Load number of cycles; 16 MHz clock
     *(STK_LOAD) = 16;
@@ -39,7 +42,7 @@ void delay_1us(void)
     *(STK_CTRL) = (1 << EN) | (1 << CLKSOURCE);
     
     // Wait for countflag to be set
-    while (*(STK_CTRL) & (1 << COUNTFLAG) == 0);
+    while ((*(STK_CTRL) & (1 << COUNTFLAG)) == 0);
 
     // Disable SysTick
     *(STK_CTRL) = 0;

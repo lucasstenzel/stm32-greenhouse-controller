@@ -1,6 +1,8 @@
 #ifndef DELAY_H_
 #define DELAY_H_
 
+#include <stdint.h>
+
 // SysTick register addresses
 #define STK_CTRL (volatile uint32_t*) 0xE000E010
 #define STK_LOAD (volatile uint32_t*) 0xE000E014
