@@ -23,7 +23,7 @@
       "args": [
         "-f", "interface/stlink.cfg",
         "-f", "target/stm32f4x.cfg",
-        "-c", "program build/ledsOn.elf verify reset exit"
+        "-c", "program build/greenhouseController.elf verify reset exit"
       ],
       "dependsOn": "Build",
       "problemMatcher": []

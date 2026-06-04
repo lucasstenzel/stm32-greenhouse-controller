@@ -10,7 +10,7 @@
         "interface/stlink.cfg",
         "target/stm32f4x.cfg"
       ],
-      "executable": "build/ledsOn.elf",
+      "executable": "build/greenhouseController.elf",
       "runToEntryPoint": "main",
       "showDevDebugOutput": "none"
     }

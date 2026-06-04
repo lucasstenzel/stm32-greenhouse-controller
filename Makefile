@@ -1,4 +1,4 @@
-TARGET = ledsOn
+TARGET = greenhouseController
 
 # Toolchain
 CC      = arm-none-eabi-gcc
