@@ -70,14 +70,6 @@ static void led_init() {
     GPIOB->MODER |=  0x55155400;   // Set those pins to output mode ("01")
 }
 
-static void led_allOn() {
-	GPIOB->BSRR |= (0xF7E0); // Turn on all LEDs by setting the lower half-word of BSRR
-}
-
-static void led_allOff() {
-	GPIOB->BSRR |= (0xF7E0 << 16); // Turn off all LEDs by setting the upper half-word of BSRR
-}
-
 static void update_display(float humidity, uint32_t co2) {
 	lcd_clear();
 	lcd_home();
