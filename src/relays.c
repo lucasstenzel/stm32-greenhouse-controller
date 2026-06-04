@@ -16,8 +16,8 @@ void relay_init(void)
     *(RCC_AHB1ENR) |= (1 << GPIOCEN);
 
     // Preset both pins to the OFF state
-    relay_off(DEVICE_HUMIDIFIER);
-    relay_off(DEVICE_FAN);
+    relay_set(DEVICE_HUMIDIFIER, false);
+    relay_set(DEVICE_FAN, false);
 
     // Set PC0 and PC1 to output mode ("01"); two MODER bits per pin.
     GPIOC->MODER &= ~((0x3 << (RELAY_HUMIDIFIER_PIN * 2)) | (0x3 << (RELAY_FAN_PIN * 2)));
