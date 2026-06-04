@@ -11,39 +11,50 @@
 //#include <stdio.h>
 //#include <stdlib.h>
 
-#include "actuator.h"
-#include "co2.h"
+#include "delay.h"
 #include "gpio.h"
 #include "greenhouse_fsm.h"
-#include "humidity.h"
 #include "lcd.h"
+#include "relays.h"
+#include "sensors.h"
 
 #define RCC_AHB1ENR (volatile uint32_t*) 0x40023830
+#define SCB_CPACR   (volatile uint32_t*) 0xE000ED88  // Coprocessor Access Control Register for float math
+
 
 // Pointers to the GPIO structures
 static volatile GPIO* GPIOB = (GPIO*)0x40020400; // GPIO port B base address, which is where the LEDs are connected
 
-// File-scope helper methods
-static void led_init();
-static void led_allOn();
-static void led_allOff();
+// Forward declaration of helper functions
+static void fpu_init(void);
+static void update_display(float humidity, uint32_t co2);
+static void error_display(void);
 
 int main() {
-	
-	led_init();
+	// Initialize hardware
+	fpu_init();
+	lcd_init();
 
-	led_allOn();
+
+
+
+	update_display(50.2468f, 800);
 
 	// main loop
 	while (1) {
 	}
-	
-	// This will never be reached
-	led_allOff();
+
+	error_display();
 
 	return 0;
 }
 
+static void fpu_init() {
+	// Enable full access to CP10 and CP11 for the FPU
+	*SCB_CPACR |= (0xF << 20); // Set bits 20-23 to enable CP10 and CP11
+	__asm volatile ("dsb");  // Wait for the CPACR write to complete
+	__asm volatile ("isb");  // Flush the pipeline before any FPU instruction
+}
 
 static void led_init() {
 	*RCC_AHB1ENR |= (1 << GPIOBEN); // Enable the GPIOB (clock) in RCC_AHB1ENR
@@ -65,4 +76,25 @@ static void led_allOn() {
 
 static void led_allOff() {
 	GPIOB->BSRR |= (0xF7E0 << 16); // Turn off all LEDs by setting the upper half-word of BSRR
+}
+
+static void update_display(float humidity, uint32_t co2) {
+	lcd_clear();
+	lcd_home();
+	lcd_print_string("Humidity: ");
+	lcd_print_float(humidity, 2);
+	lcd_print_string("%");
+
+	lcd_set_position(1, 0);
+	lcd_print_string("CO2: ");
+	lcd_print_num(co2, 0);
+	lcd_print_string("ppm");
+}
+
+static void error_display() {
+	lcd_clear();
+	lcd_home();
+	lcd_print_string("System Error -");
+	lcd_set_position(1, 0);
+	lcd_print_string("Reset Required");
 }
