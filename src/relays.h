@@ -26,7 +26,7 @@ typedef enum {
  */
 void relay_init(void);
 
-/* Drive a relay on/off (handles the active-low inversion internally). */
+/* Drive a relay on/off */
 void relay_set(Device device, bool on);
 
 #endif // RELAYS_H
