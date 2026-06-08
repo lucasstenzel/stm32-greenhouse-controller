@@ -1,8 +1,16 @@
+/*
+ * @file relays.c
+ * @author Lucas Stenzel
+ * @date June 5, 2026
+ * 
+ * Relay control logic
+ */
+
 #include "gpio.h"
 #include "relays.h"
 
 // Struct pointers
-static volatile GPIO* GPIOC = (GPIO*)0x40020800;    // Using PC0 and PC1
+static volatile GPIO* GPIOC = (GPIO*)0x40020800;
 
 #define RELAY_HUMIDIFIER_PIN 0   // PC0
 #define RELAY_FAN_PIN        1   // PC1
@@ -20,8 +28,8 @@ void relay_init(void)
     relay_set(DEVICE_FAN, false);
 
     // Set PC0 and PC1 to output mode ("01"); two MODER bits per pin.
-    GPIOC->MODER &= ~((0x3 << (RELAY_HUMIDIFIER_PIN * 2)) | (0x3 << (RELAY_FAN_PIN * 2)));
-    GPIOC->MODER |=  ((OUTPUT << (RELAY_HUMIDIFIER_PIN * 2)) | (OUTPUT << (RELAY_FAN_PIN * 2)));
+    GPIOC->MODER &= ~0x0000000F;    // Clear PC0/PC1
+    GPIOC->MODER |=  0x00000005;    // Set PC0/PC1 to output mode ("01")
 }
 
 void relay_set(Device device, bool on)
