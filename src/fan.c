@@ -28,8 +28,8 @@ static volatile TIMER* TIM2 = (TIMER*)0x40000000;   // Tach input capture (APB1 
  * A 4-wire fan emits 2 tach pulses per revolution, so:
  *   RPM = 60 * (pulses_per_sec / 2) = 60/2 * tick_rate / period_ticks
  */
-#define TACH_TICK_HZ       1000000UL
-#define TACH_PRESCALE           ((16000000UL / TACH_TICK_HZ) - 1)   // 16 MHz -> 1 MHz, = 15
+#define TACH_TICK_HZ        1000000UL
+#define TACH_PRESCALE       ((16000000UL / TACH_TICK_HZ) - 1)   // 16 MHz -> 1 MHz, = 15
 #define TACH_RPM_FACTOR     60UL / 2UL   // 60 seconds per minute, 2 pulses per revolution
 
 void fan_init(void)
