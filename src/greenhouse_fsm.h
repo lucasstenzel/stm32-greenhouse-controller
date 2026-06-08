@@ -16,10 +16,10 @@ typedef enum
 {
     EVENT_NONE,
     EVENT_HUMIDITY_LOW,     // RH below setpoint -> turn on humidifier
-    EVENT_HUMIDITY_GOOD,    // RH sufficiently within setpoint range -> turn off humidifier
+    EVENT_HUMIDITY_TARGET,    // RH sufficiently within setpoint range -> turn off humidifier
     EVENT_HUMIDITY_HIGH,    // RH above setpoint range -> turn on fan
     EVENT_CO2_HIGH,         // CO2 above limit -> turn on fan
-    EVENT_CO2_GOOD,         // CO2 sufficiently within limit -> turn off fan
+    EVENT_CO2_TARGET,         // CO2 sufficiently within limit -> turn off fan
     NUM_EVENTS
 } Event;
 
