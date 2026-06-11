@@ -1,19 +1,23 @@
 // greenhouse_fsm.c
 #include "greenhouse_fsm.h"
+#include "relays.h"
 
 /**
  * @brief Turn both the humidifier and fan off
  */
 void action_idle(void)
 {
-    // TODO
+    relay_set(DEVICE_FAN, false);
+    relay_set(DEVICE_HUMIDIFIER, false);
 }
+
 /**
  * @brief Turn the humidifier on but the fan off
  */
 void action_humidify(void)
 {
-    // TODO
+    relay_set(DEVICE_FAN, false);
+    relay_set(DEVICE_HUMIDIFIER, true);
 }
 
 /**
@@ -21,7 +25,8 @@ void action_humidify(void)
  */
 void action_ventilate(void)
 {
-    // TODO
+    relay_set(DEVICE_FAN, true);
+    relay_set(DEVICE_HUMIDIFIER, false);
 }
 
 void action_hold(void)
@@ -33,10 +38,10 @@ void action_hold(void)
 // I have prioritized ventilation over humidification
 transition fsm_table[NUM_STATES][NUM_EVENTS] =
 {
-    /*                  NONE,                               HUMIDITY_LOW,                           HUMIDITY_GOOD,                      HUMIDITY_HIGH,                          CO2_HIGH                                CO2_GOOD    */
-    /* IDLE */          {{STATE_IDLE, action_hold},         {STATE_HUMIDIFYING, action_humidify},   {STATE_IDLE, action_hold},          {STATE_VENTILATING, action_ventilate},  {STATE_VENTILATING, action_ventilate},  {STATE_IDLE, action_hold}},
-    /* HUMIDIFYING */   {{STATE_HUMIDIFYING, action_hold},  {STATE_HUMIDIFYING, action_hold},       {STATE_IDLE, action_idle},          {STATE_VENTILATING, action_ventilate},  {STATE_VENTILATING, action_ventilate},  {STATE_HUMIDIFYING, action_hold}},
-    /* VENTILATING */   {{STATE_VENTILATING, action_hold},  {STATE_VENTILATING, action_hold},       {STATE_VENTILATING, action_hold},   {STATE_VENTILATING, action_hold},       {STATE_VENTILATING, action_hold},       {STATE_IDLE, action_idle}},    
+    /*                  NONE,                               HUMIDITY_LOW,                           HUMIDITY_HIGH,                          CO2_HIGH                                ALL_GOOD      */
+    /* IDLE */          {{STATE_IDLE, action_hold},         {STATE_HUMIDIFYING, action_humidify},   {STATE_VENTILATING, action_ventilate},  {STATE_VENTILATING, action_ventilate},  {STATE_IDLE, action_hold}},
+    /* HUMIDIFYING */   {{STATE_HUMIDIFYING, action_hold},  {STATE_HUMIDIFYING, action_hold},       {STATE_VENTILATING, action_ventilate},  {STATE_VENTILATING, action_ventilate},  {STATE_IDLE, action_idle}},
+    /* VENTILATING */   {{STATE_VENTILATING, action_hold},  {STATE_HUMIDIFYING, action_humidify},   {STATE_VENTILATING, action_hold},       {STATE_VENTILATING, action_hold},       {STATE_IDLE, action_idle}},
 };
 
 State update_fsm(State current, Event input)

@@ -17,50 +17,50 @@
 
 // Predefined profiles
 typedef struct {
-    uint8_t humidity_low;       // Lower limit for humidity (0-100)
-    uint8_t humidity_high;      // Upper limit for humidity (0-100)
-    uint16_t co2_high;          // Upper limit for CO2 concentration in ppm
-    uint16_t co2_target;        // Ideal CO2 concentration in ppm
+    float humidity_low;         // Lower limit for humidity, percent (0-100): below this -> humidify
+    float humidity_high;        // Upper limit for humidity, percent (0-100): above this -> ventilate
+    uint16_t co2_high;          // Upper limit for CO2 concentration in ppm: at/above this -> ventilate
+    uint16_t co2_target;        // Ideal CO2 concentration in ppm: at/below this -> stop ventilating
 } SpeciesProfile;
 
 static const SpeciesProfile ENOKI = {
-    .humidity_low = 85,
-    .humidity_high = 90,
+    .humidity_low = 85.0f,
+    .humidity_high = 90.0f,
     .co2_high = 2000,
     .co2_target = 1200
 };
 
 static const SpeciesProfile LIONS_MANE = {
-    .humidity_low = 85,
-    .humidity_high = 95,
+    .humidity_low = 85.0f,
+    .humidity_high = 95.0f,
     .co2_high = 1100,
     .co2_target = 800
 };
 
 static const SpeciesProfile OYSTER = {
-    .humidity_low = 80,
-    .humidity_high = 90,
+    .humidity_low = 80.0f,
+    .humidity_high = 90.0f,
     .co2_high = 600,
     .co2_target = 400
 };
 
 static const SpeciesProfile REISHI = {
-    .humidity_low = 85,
-    .humidity_high = 95,
+    .humidity_low = 85.0f,
+    .humidity_high = 95.0f,
     .co2_high = 1000,
     .co2_target = 800
 };
 
 static const SpeciesProfile SHIITAKE = {
-    .humidity_low = 80,
-    .humidity_high = 90,
+    .humidity_low = 80.0f,
+    .humidity_high = 90.0f,
     .co2_high = 1500,
     .co2_target = 1000
 };
 
 static const SpeciesProfile CUSTOM = {
-    .humidity_low = 85,
-    .humidity_high = 95,
+    .humidity_low = 85.0f,
+    .humidity_high = 95.0f,
     .co2_high = 600,
     .co2_target = 450
 };
